@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ADODISHES")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1c028b8db4af194e19b83b3f8b2a2b489af5bc8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3195991c4087b44f632b04280e9e031a853405e0")]
 [assembly: System.Reflection.AssemblyProductAttribute("ADODISHES")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ADODISHES")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
