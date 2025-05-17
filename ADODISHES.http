@@ -1,0 +1,6 @@
+@ADODISHES_HostAddress = http://localhost:5042
+
+GET {{ADODISHES_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
