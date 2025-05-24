@@ -43,3 +43,6 @@ project.assets.json
 .vscode/extensions.json
 # Visual Studio Code workspace storage
 .vscode/workspaceStorage/
+.v2
+.suo
+
