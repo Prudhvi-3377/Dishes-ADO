@@ -1,24 +1,26 @@
-# Build output
+# Build output folders
 bin/
 obj/
 
-# User-specific
+# User-specific files (IDE related)
 *.user
 *.suo
 
-# Visual Studio settings
+# Visual Studio settings folder
 .vs/
 
-# VS Code / Rider
+# VS Code settings folder
 .vscode/
+
+# JetBrains Rider settings folder
 .idea/
 
-# NuGet
+# NuGet package files
 *.nupkg
 project.lock.json
 project.assets.json
 
-# Debug and temp files
+# Debug and temporary files
 *.log
 *.cache
 *.pdb
@@ -26,5 +28,12 @@ project.assets.json
 *.bak
 *.tmp
 
-# OS files
+# Operating System files
 .DS_Store
+
+# Optional: Rider's cache files (sometimes useful to exclude)
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+
+# Optional: Ignore Rider project files th
