@@ -1,0 +1,22 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Rider / VS Code / temp files
+.idea/
+.vscode/
+*.log
+*.cache
+
+# NuGet
+*.nupkg
+project.lock.json
+project.assets.json
+
+# Others
+*.dll
+*.pdb
