@@ -1,6 +1,7 @@
 # Build output
 bin/
 obj/
+.bin
 
 # User-specific files
 *.user
@@ -11,6 +12,8 @@ obj/
 .vscode/
 *.log
 *.cache
+.vs/
+.vsidx
 
 # NuGet
 *.nupkg
@@ -20,3 +23,23 @@ project.assets.json
 # Others
 *.dll
 *.pdb
+# Backup files
+*.bak
+# Visual Studio Code settings
+*.code-workspace
+# Rider settings
+.idea/
+# Temporary files
+*.tmp
+# OS generated files
+.DS_Store
+# JetBrains Rider
+.idea/
+# Visual Studio Code
+.vscode/
+# Visual Studio Code workspace settings
+.vscode/settings.json
+# Visual Studio Code extensions
+.vscode/extensions.json
+# Visual Studio Code workspace storage
+.vscode/workspaceStorage/
