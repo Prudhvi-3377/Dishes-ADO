@@ -12,9 +12,9 @@ namespace ADODISHES.Repo
 			_configuration = config;
 		}
 		
-		public async Task<Dish> GetDishByIdAsync(int id)
+public async Task<Dish?> GetDishByIdAsync(int id) // Updated return type to Dish? to indicate it can return null
 		{
-			Dish dish = new Dish();
+			Dish? dish = null;
 
 			string query = "SELECT * FROM Dishes WHERE Id = @Id";
 
@@ -39,7 +39,7 @@ namespace ADODISHES.Repo
 				}
 			}
 
-			return dish;
+			return dish; 
 		}
 		public async Task<IEnumerable<Dish>> GetDishesAsync()
 		{
@@ -121,6 +121,7 @@ namespace ADODISHES.Repo
 		}
 		public async Task<int> DeleteDishAsync(int id)
 		{
+			
 			String Query = "Delete from  dishes  where Id=@Id";
 
 			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))

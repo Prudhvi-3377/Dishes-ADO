@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: Dishes API
+  version: 1.0.0
+  description: API for managing dishes
+
+servers:
+  - url: http://localhost:5000/api
+
+paths:
+  /dishes:
+    get:
+      summary: Get all dishes
+      responses:
+        '200':
+          description: List of dishes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+    post:
+      summary: Insert a new dish
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dish'
+      responses:
+        '201':
+          description: Dish inserted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+    put:
+        summary: Update an existing dish
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        responses:
+          '200':
+            description: Dish updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dish'
+          '404':
+            description: Dish not found
+    delete:
+      summary: Delete a dish
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+      responses:
+          '200':
+            description: Dish updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dish'
+          '404':
+            description: Dish not found
+components:
+  schemas:
+    Dish:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Pizza
+        description:
+          type: string
+          example: Italian cheese pizza
+        quantity:
+          type: integer
+          example: 10
+      required:
+        - name
+        - description
+        - quantity

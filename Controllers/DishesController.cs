@@ -14,10 +14,14 @@ namespace ADODISHES.Controllers
 		}
 		[Route("GetDishes/id")]
 		[HttpGet]
-		public async Task<IActionResult> GetDishes(int id)
+		public async Task<ActionResult<Dish>> GetDishes(int id)
 		{
-			Dish dishes = await _dishRepo.GetDishByIdAsync(id);
-			return Ok(dishes);
+			Dish dish = await _dishRepo.GetDishByIdAsync(id);
+			if (dish == null)
+			{
+				return NotFound($"Dish with ID {id} not found.");
+			}
+			return (dish);
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetDishes()
