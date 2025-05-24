@@ -1,48 +1,30 @@
 # Build output
 bin/
 obj/
-.bin
 
-# User-specific files
+# User-specific
 *.user
 *.suo
 
-# Rider / VS Code / temp files
-.idea/
-.vscode/
-*.log
-*.cache
+# Visual Studio settings
 .vs/
-.vsidx
+
+# VS Code / Rider
+.vscode/
+.idea/
 
 # NuGet
 *.nupkg
 project.lock.json
 project.assets.json
 
-# Others
-*.dll
+# Debug and temp files
+*.log
+*.cache
 *.pdb
-# Backup files
+*.dll
 *.bak
-# Visual Studio Code settings
-*.code-workspace
-# Rider settings
-.idea/
-# Temporary files
 *.tmp
-# OS generated files
-.DS_Store
-# JetBrains Rider
-.idea/
-# Visual Studio Code
-.vscode/
-# Visual Studio Code workspace settings
-.vscode/settings.json
-# Visual Studio Code extensions
-.vscode/extensions.json
-# Visual Studio Code workspace storage
-.vscode/workspaceStorage/
-.v2
-.suo
 
+# OS files
+.DS_Store
