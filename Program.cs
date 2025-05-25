@@ -1,3 +1,4 @@
+using ADODISHES.Filter;
 using ADODISHES.Repo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDishRepo, DishRepo>();
+builder.Services.AddScoped<ILoginInterface, LoginService>();
+// Register the custom filter as a service
+builder.Services.AddScoped<CustomFilterinterface>();
+// Register the custom filter globally
+/*
+builder.Services.AddControllers(options =>
+{
+	options.Filters.Add<CustomFilterinterface>();
+});
+
+*/
 
 
 var app = builder.Build();

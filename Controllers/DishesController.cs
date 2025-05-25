@@ -1,17 +1,44 @@
-﻿using ADODISHES.Model;
+﻿using ADODISHES.Filter;
+using ADODISHES.Model;
 using ADODISHES.Repo;
 using Microsoft.AspNetCore.Mvc;
 namespace ADODISHES.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[ServiceFilter(typeof(CustomFilterinterface))] // This filter will validate the model state
+
 	public class DishesController : ControllerBase
 	{
 		private readonly IDishRepo _dishRepo;
-		public DishesController(IDishRepo dishRepo)
+		private readonly ILoginInterface _loginInterface;
+		public DishesController(IDishRepo dishRepo, ILoginInterface loginInterface)
 		{
-			_dishRepo = dishRepo;
+			_dishRepo = dishRepo;			
+			_loginInterface = loginInterface;
 		}
+		[HttpPost("login")]
+		public async Task<IActionResult> Login(string userName, string Password)
+		{
+			if ( string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(Password))
+			{
+				return BadRequest("Invalid login credentials.");
+			}
+			var (isSuccess, login) = await _loginInterface.LoginAsync(userName, Password);
+			if (!isSuccess)
+			{
+				return Unauthorized("Invalid username or password.");
+			}
+			return Ok(new
+			{
+				Id=login.UserId,
+				UserId = login.UserId,
+				UserName = login.UserName,
+				Role = login.Role
+			});
+		}
+
+
 		[Route("GetDishes/id")]
 		[HttpGet]
 		public async Task<ActionResult<Dish>> GetDishes(int id)
