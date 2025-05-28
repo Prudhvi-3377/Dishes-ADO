@@ -2,6 +2,6 @@
 {
 	public interface IGenerateToken
 	{
-		string CreateToken(string userName);
+		string CreateToken(string userName,string admin);
 	}
 }

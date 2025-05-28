@@ -33,7 +33,7 @@ namespace ADODISHES.Controllers
 				return Unauthorized("Invalid username or password.");
 			}
 			// Generate a token for the user
-			return Ok( _generateToken.CreateToken(userName));
+			return Ok( _generateToken.CreateToken(userName,login.Role));
 
 		}
 
@@ -72,6 +72,7 @@ namespace ADODISHES.Controllers
 		}
 
 		[HttpDelete]
+		[Authorize(Roles="ADMIN")]
 		public async Task<IActionResult> DeleteDishes(int id)
 		{
 			int DeletedId = await _dishRepo.DeleteDishAsync(id);

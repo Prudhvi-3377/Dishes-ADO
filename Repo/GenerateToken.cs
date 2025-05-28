@@ -15,7 +15,7 @@ namespace ADODISHES.Repo
 		{
 			_jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings));
 		}
-		public string CreateToken(string userName)
+		public string CreateToken(string userName,string admin)
 		{
 			if (string.IsNullOrEmpty(_jwtSettings.Key))
 			{
@@ -29,7 +29,8 @@ namespace ADODISHES.Repo
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-									new Claim(ClaimTypes.Name, userName)
+									new Claim(ClaimTypes.Name, userName),
+									new Claim(ClaimTypes.Role, admin)
 								}),
 				Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationInMinutes),
 				Issuer = _jwtSettings.Issuer,
