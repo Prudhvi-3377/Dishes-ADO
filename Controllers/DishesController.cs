@@ -1,6 +1,7 @@
 ﻿using ADODISHES.Filter;
 using ADODISHES.Model;
 using ADODISHES.Repo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace ADODISHES.Controllers
 {
@@ -12,10 +13,12 @@ namespace ADODISHES.Controllers
 	{
 		private readonly IDishRepo _dishRepo;
 		private readonly ILoginInterface _loginInterface;
-		public DishesController(IDishRepo dishRepo, ILoginInterface loginInterface)
+		private readonly IGenerateToken _generateToken;
+		public DishesController(IDishRepo dishRepo, ILoginInterface loginInterface, IGenerateToken generateToken)
 		{
-			_dishRepo = dishRepo;			
+			_dishRepo = dishRepo;
 			_loginInterface = loginInterface;
+			_generateToken = generateToken;
 		}
 		[HttpPost("login")]
 		public async Task<IActionResult> Login(string userName, string Password)
@@ -29,18 +32,15 @@ namespace ADODISHES.Controllers
 			{
 				return Unauthorized("Invalid username or password.");
 			}
-			return Ok(new
-			{
-				Id=login.UserId,
-				UserId = login.UserId,
-				UserName = login.UserName,
-				Role = login.Role
-			});
+			// Generate a token for the user
+			return Ok( _generateToken.CreateToken(userName));
+
 		}
 
 
 		[Route("GetDishes/id")]
 		[HttpGet]
+		[Authorize] 
 		public async Task<ActionResult<Dish>> GetDishes(int id)
 		{
 			Dish dish = await _dishRepo.GetDishByIdAsync(id);
