@@ -30,7 +30,7 @@ if (string.IsNullOrEmpty(jwtKey))
 }
 
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-
+     
 // 3. Configure authentication (DO NOT nest AddAuthentication/AddJwtBearer inside itself)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
@@ -57,10 +57,12 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+// Redirect HTTP to HTTPS
+app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 
