@@ -6,6 +6,6 @@ namespace ADODISHES.Repo
 
 	public interface ILoginInterface
 	{
-		Task<(bool isSuccess,Login login)> LoginAsync(string username, string password);
+		Task<(bool isSuccess,Login login)> LoginAsync(string userName, string password);
 	}
 }

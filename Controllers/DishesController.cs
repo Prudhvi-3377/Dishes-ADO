@@ -21,19 +21,20 @@ namespace ADODISHES.Controllers
 			_generateToken = generateToken;
 		}
 		[HttpPost("login")]
-		public async Task<IActionResult> Login(string userName, string Password)
+		public async Task<IActionResult> Login([FromBody] LoginRequest req)
 		{
-			if ( string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(Password))
+			if ( string.IsNullOrEmpty(req.userName) || string.IsNullOrEmpty(req.password))
 			{
 				return BadRequest("Invalid login credentials.");
 			}
-			var (isSuccess, login) = await _loginInterface.LoginAsync(userName, Password);
+			var (isSuccess, login) = await _loginInterface.LoginAsync(req.userName, req.password);
 			if (!isSuccess)
 			{
-				return Unauthorized("Invalid username or password.");
+				return Unauthorized("Invalid userName or password.");
 			}
 			// Generate a token for the user
-			return Ok( _generateToken.CreateToken(userName,login.Role));
+			var token = _generateToken.CreateToken(req.userName, login.Role);
+			return Ok(new { token , statusCode= 200, message="Login Successful",role=login.Role});
 
 		}
 
@@ -51,6 +52,7 @@ namespace ADODISHES.Controllers
 			return (dish);
 		}
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> GetDishes()
 		{
 			IEnumerable<Dish> dishes = await _dishRepo.GetDishesAsync();
@@ -58,14 +60,16 @@ namespace ADODISHES.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> InsertDishes(Dish dish)
+		[Authorize]
+		public async Task<IActionResult> InsertDishes([FromBody] Dish dish)
 		{
 			Dish outDish = await _dishRepo.InsertDishAsync(dish);
 			return Ok(String.Format("The Dish has been inserted with Name {0}, Description {1} and Quantity {2}", outDish.Name, outDish.Description, outDish.Quantity));
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> updateDishes(Dish dish)
+		[Authorize]
+		public async Task<IActionResult> updateDishes([FromBody] Dish dish)
 		{
 			Dish outDish = await _dishRepo.UpdateDishAsync(dish);
 			return Ok(String.Format("The Dish has been Updated with an ID of {0} with Name {1}, Description {2} and Quantity {3}", outDish.Id, dish.Name, dish.Description, dish.Quantity));

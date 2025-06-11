@@ -62,7 +62,7 @@
                     "hostName": "adodishesapi.azure-api.net",
                     "encodedCertificate": null,
                     "keyVaultId": null,
-                    "certificatePassword": null,
+                    "certificatepassword": null,
                     "negotiateClientCertificate": false,
                     "certificate": null,
                     "defaultSslBinding": true
