@@ -12,7 +12,7 @@ namespace ADODISHES.Repo
 			_configuration = config;
 		}
 		
-public async Task<Dish?> GetDishByIdAsync(int id) // Updated return type to Dish? to indicate it can return null
+public async Task<Dish> GetDishByIdAsync(int id) // Updated return type to match the interface
 		{
 			Dish? dish = null;
 
@@ -39,7 +39,7 @@ public async Task<Dish?> GetDishByIdAsync(int id) // Updated return type to Dish
 				}
 			}
 
-			return dish; 
+			return (dish);
 		}
 		public async Task<IEnumerable<Dish>> GetDishesAsync()
 		{
