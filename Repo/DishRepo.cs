@@ -1,142 +1,64 @@
 ﻿using ADODISHES.Model;
 using Microsoft.Data.SqlClient;
+using System.Collections.Concurrent;
 using System.Data;
-
+using System.Linq;
 namespace ADODISHES.Repo
 {
-	public class DishRepo: IDishRepo
+	public class DishRepo : IDishRepo
 	{
 		private readonly IConfiguration _configuration;
-		public DishRepo(IConfiguration config)
+		public static List<Dish> Dishes = new List<Dish>
 		{
-			_configuration = config;
+			new Dish { Id = 1, Name = "Mutton Biryani", Description = "Spicy rice dish made with marinated mutton and basmati rice", Quantity = 25 },
+			new Dish { Id = 2, Name = "Chicken Curry", Description = "Traditional Indian curry with tender chicken pieces", Quantity = 30 },
+			new Dish { Id = 3, Name = "Paneer Butter Masala", Description = "Creamy tomato-based curry with cottage cheese cubes", Quantity = 20 },
+			new Dish { Id = 4, Name = "Vegetable Pulao", Description = "Fragrant rice with mixed vegetables and mild spices", Quantity = 15 },
+			new Dish { Id = 5, Name = "Fish Fry", Description = "Crispy fried fish fillets with spices", Quantity = 18 },
+			new Dish { Id = 6, Name = "Dal Tadka", Description = "Yellow lentils cooked with tempered spices and ghee", Quantity = 22 },
+			new Dish { Id = 7, Name = "Chilli Chicken", Description = "Spicy Indo-Chinese dish with chicken and bell peppers", Quantity = 27 },
+			new Dish { Id = 8, Name = "Egg Bhurji", Description = "Indian-style scrambled eggs with onions and spices", Quantity = 19 },
+			new Dish { Id = 9, Name = "Rajma Chawal", Description = "Red kidney beans curry served with rice", Quantity = 16 },
+			new Dish { Id = 10, Name = "Aloo Gobi", Description = "Dry curry made with potatoes and cauliflower", Quantity = 21 }
+		};
+		public DishRepo()
+		{
 		}
-		
-public async Task<Dish?> GetDishByIdAsync(int id) // Updated return type to Dish? to indicate it can return null
+
+		public async Task<Dish?> GetDishByIdAsync(int id) // Updated return type to match the interface
 		{
-			Dish? dish = null;
 
-			string query = "SELECT * FROM Dishes WHERE Id = @Id";
-
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-			using (SqlCommand cmd = new SqlCommand(query, con))
-			{
-				cmd.Parameters.AddWithValue("@Id", id);
-
-				await con.OpenAsync();
-				using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-				{
-					if (await reader.ReadAsync())
-					{
-						dish = new Dish
-						{
-							Id = reader.GetInt32(0),
-							Name = reader.GetString(1),
-							Description = reader.GetString(2),
-							Quantity = reader.GetInt32(3)
-						};
-					}
-				}
-			}
-
-			return dish; 
+			return Dishes.FirstOrDefault(item => item.Id == id);
 		}
 		public async Task<IEnumerable<Dish>> GetDishesAsync()
 		{
-			List<Dish> dish = new List<Dish>();
-
-			DataTable dt = new DataTable();
-
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-			{
-				using (SqlCommand cmd = new SqlCommand("Select * from Dishes", con))
-				{
-					SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-
-					await con.OpenAsync();
-
-
-					adapter.Fill(dt);
-				}
-			}
-
-			foreach (DataRow dr in dt.Rows)
-			{
-				dish.Add
-				(
-					new Dish
-					{
-						Id = (int)dr["Id"],
-						Name = (string)dr["Name"],
-						Description = (string)dr["Description"],
-						Quantity = (int)dr["Quantity"]
-					}
-				);
-			}
-
-			return (dish);
+			return Dishes;
 		}
 		public async Task<Dish> InsertDishAsync(Dish dish)
 		{
-			String Query = "Insert into dishes values (@Name,@Description,@Quantity)";
-
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-			{
-				using (SqlCommand cmd = new SqlCommand(Query, con))
-				{
-
-					await con.OpenAsync();
-					cmd.Parameters.AddWithValue("@Name", dish.Name);
-
-					cmd.Parameters.AddWithValue("@Description", dish.Description);
-					cmd.Parameters.AddWithValue("@Quantity", dish.Quantity);
-
-					await cmd.ExecuteNonQueryAsync();
-				}
-			}
+			dish.Id = Dishes.Count > 0 ? Dishes.Max(d => d.Id) + 1 : 1;
+			Dishes.Add(dish);
 			return dish;
 		}
 		public async Task<Dish> UpdateDishAsync(Dish dish)
 		{
-
-			String Query = "Update dishes set Name=@Name,Description=@Description,Quantity=@Quantity where Id=@Id";
-
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+			var exisiting = Dishes.FirstOrDefault(item => item.Id == dish.Id);
+			if (exisiting != null)
 			{
-				using (SqlCommand cmd = new SqlCommand(Query, con))
-				{
-
-					await con.OpenAsync();
-
-					cmd.Parameters.AddWithValue("@Id", dish.Id);
-					cmd.Parameters.AddWithValue("@Name", dish.Name);
-					cmd.Parameters.AddWithValue("@Description", dish.Description);
-					cmd.Parameters.AddWithValue("@Quantity", dish.Quantity);
-
-					await cmd.ExecuteNonQueryAsync();
-				}
+				exisiting.Name = dish.Name;
+				exisiting.Description = dish.Description;
+				exisiting.Quantity = dish.Quantity;
+				exisiting.Id = dish.Id;
 			}
 			return dish;
 
 		}
 		public async Task<int> DeleteDishAsync(int id)
 		{
-			
-			String Query = "Delete from  dishes  where Id=@Id";
+			var removingdish = Dishes.FirstOrDefault((item) => item.Id == id);
+			if (removingdish != null)
+				Dishes.Remove(removingdish);
 
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-			{
-				using (SqlCommand cmd = new SqlCommand(Query, con))
-				{
-
-					await con.OpenAsync();
-
-					cmd.Parameters.AddWithValue("@Id", id);
-
-
-					await cmd.ExecuteNonQueryAsync();
-				}
-			}
 			return id;
 		}
 

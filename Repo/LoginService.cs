@@ -4,37 +4,25 @@ namespace ADODISHES.Repo
 {
 	public class LoginService : ILoginInterface
 	{
-		private readonly IConfiguration _configuration;
-		public LoginService(IConfiguration configuration)
+		private static List<Login> Logins = new List<Login>
 		{
-			_configuration = configuration;
+			new Login { UserId = 1, userName = "ADMIN", password = "ADMIN", Role = "ADMIN" },
+			new Login { UserId = 2, userName = "Lavanya", password = "Lavanya@12", Role = "ADMIN" },
+			new Login { UserId = 3, userName = "Prudhvi", password = "Prudhvi@21", Role = "ADMIN" }
+		};
+
+		public LoginService()
+		{
 		}
 
 		public async Task<(bool isSuccess, Login login)> LoginAsync(string userName, string password)
 		{
-			string query = "select * from USERS where userName = @userName and password = @password";
-			using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+			
+
+			Login? login = Logins.FirstOrDefault(l => l.userName.Equals(userName, StringComparison.OrdinalIgnoreCase) && l.password == password);
+			if(login != null)
 			{
-				using (SqlCommand cmd = new SqlCommand(query, con))
-				{
-					cmd.Parameters.AddWithValue("userName", userName);
-					cmd.Parameters.AddWithValue("password", password);
-					con.Open();
-					using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-					{
-						if (await reader.ReadAsync())
-						{
-							Login login = new Login
-							{
-								UserId = reader.GetInt32(0),
-								userName = reader.GetString(1),
-								password = reader.GetString(2),
-								Role = reader.GetString(3)
-							};
-							return (true, login);
-						}
-					}
-				}
+				return (true, login);
 			}
 			return (false, new Login());
 		}
