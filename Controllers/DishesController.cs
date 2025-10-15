@@ -39,7 +39,7 @@ namespace ADODISHES.Controllers
 		}
 
 
-		[Route("GetDishes/id")]
+		[Route("/api/Dishes/id")]
 		[HttpGet]
 		[Authorize] 
 		public async Task<ActionResult<Dish>> GetDishes(int id)
