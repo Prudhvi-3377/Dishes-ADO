@@ -39,8 +39,8 @@ namespace ADODISHES.Controllers
 		}
 
 
-		[Route("/api/Dishes/id")]
-		[HttpGet]
+
+		[HttpGet("{id}")]
 		[Authorize]
 		public async Task<ActionResult<Dish>> GetDishes(int id)
 		{
@@ -68,7 +68,7 @@ namespace ADODISHES.Controllers
 		}
 
 		[HttpPut]
-		[Authorize]
+		//[Authorize]
 		public async Task<IActionResult> updateDishes([FromBody] Dish dish)
 		{
 			Dish outDish = await _dishRepo.UpdateDishAsync(dish);
