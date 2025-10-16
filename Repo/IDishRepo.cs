@@ -11,5 +11,6 @@ namespace ADODISHES.Repo
 		Task<Dish> UpdateDishAsync(Dish dish);
 		Task<int> DeleteDishAsync(int id);
 		Task<Dish> GetDishByIdAsync(int id);
+		void ResetDishAsync(); 
 	}
 }

@@ -23,7 +23,7 @@ namespace ADODISHES.Controllers
 		[HttpPost("login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequest req)
 		{
-			if ( string.IsNullOrEmpty(req.userName) || string.IsNullOrEmpty(req.password))
+			if (string.IsNullOrEmpty(req.userName) || string.IsNullOrEmpty(req.password))
 			{
 				return BadRequest("Invalid login credentials.");
 			}
@@ -34,14 +34,14 @@ namespace ADODISHES.Controllers
 			}
 			// Generate a token for the user
 			var token = _generateToken.CreateToken(req.userName, login.Role);
-			return Ok(new { token , statusCode= 200, message="Login Successful",role=login.Role});
+			return Ok(new { token, statusCode = 200, message = "Login Successful", role = login.Role });
 
 		}
 
 
 		[Route("/api/Dishes/id")]
 		[HttpGet]
-		[Authorize] 
+		[Authorize]
 		public async Task<ActionResult<Dish>> GetDishes(int id)
 		{
 			Dish dish = await _dishRepo.GetDishByIdAsync(id);
@@ -76,11 +76,23 @@ namespace ADODISHES.Controllers
 		}
 
 		[HttpDelete]
-		[Authorize(Roles="ADMIN")]
+		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> DeleteDishes(int id)
 		{
 			int DeletedId = await _dishRepo.DeleteDishAsync(id);
 			return Ok(String.Format("The Dish has been Deleted with an ID of {0} ", id));
+		}
+		[HttpGet("/health")]
+		public IActionResult HealthCheck()
+		{
+			return Ok("API is healthy");
+		}
+		[Authorize]
+		[HttpGet("reset")]
+		public IActionResult Reset()
+		{
+			 _dishRepo.ResetDishAsync();
+			return Ok("Resetting the dishes are done.");
 		}
 	}
 }
