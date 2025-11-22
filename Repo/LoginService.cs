@@ -7,8 +7,8 @@ namespace ADODISHES.Repo
 		private static List<Login> Logins = new List<Login>
 		{
 			new Login { UserId = 1, userName = "ADMIN", password = "ADMIN", Role = "ADMIN" },
-			new Login { UserId = 2, userName = "Lavanya", password = "Lavanya@12", Role = "ADMIN" },
-			new Login { UserId = 3, userName = "Prudhvi", password = "Prudhvi@21", Role = "ADMIN" }
+			new Login { UserId = 2, userName = "LAVANYA", password = "LAVANYA@12", Role = "ADMIN" },
+			new Login { UserId = 3, userName = "PRUDHVI", password = "PRUDHVI@21", Role = "ADMIN" }
 		};
 
 		public LoginService()
