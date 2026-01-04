@@ -1,8 +1,4 @@
 ﻿using ADODISHES.Model;
-using Microsoft.Data.SqlClient;
-using System.Collections.Concurrent;
-using System.Data;
-using System.Linq;
 namespace ADODISHES.Repo
 {
 	public class DishRepo : IDishRepo
@@ -21,8 +17,9 @@ namespace ADODISHES.Repo
 			new Dish { Id = 9, Name = "Rajma Chawal", Description = "Red kidney beans curry served with rice", Quantity = 16 },
 			new Dish { Id = 10, Name = "Aloo Gobi", Description = "Dry curry made with potatoes and cauliflower", Quantity = 21 }
 		};
-		public DishRepo()
+		public DishRepo(IConfiguration configuration)
 		{
+			_configuration = configuration;
 		}
 		public void ResetDishAsync()
 		{
@@ -42,7 +39,7 @@ namespace ADODISHES.Repo
 			};
 		}
 
-		public async Task<Dish?> GetDishByIdAsync(int id) 
+		public async Task<Dish?> GetDishByIdAsync(int id)
 		{
 
 			return Dishes.FirstOrDefault(item => item.Id == id);

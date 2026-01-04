@@ -3,14 +3,14 @@ using System.Diagnostics;
 
 namespace ADODISHES.Filter
 {
-	public class CustomFilter: ActionFilterAttribute
+	public class CustomFilter : ActionFilterAttribute
 	{
 		private readonly Stopwatch _stopwatch = new Stopwatch();
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			
-				_stopwatch.Start();
-			
+
+			_stopwatch.Start();
+
 		}
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{

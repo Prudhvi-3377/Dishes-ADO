@@ -9,11 +9,11 @@ namespace ADODISHES.Test
 		[InlineData(3, -4, -1)]
 		[InlineData(-4, -4, -8)]
 
-		public void Test1(int a , int b, int sum)
+		public void Test1(int a, int b, int sum)
 		{
-		{
-			Assert.Equal(a+b,sum);
-		}
+			{
+				Assert.Equal(a + b, sum);
+			}
 		}
 
 

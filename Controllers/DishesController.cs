@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace ADODISHES.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/[controller]")]// api/dishes
 	[ApiController]
-	[ServiceFilter(typeof(CustomFilterinterface))] // This filter will validate the model state
-
+	[ServiceFilter(typeof(CustomFilterinterface))]
 	public class DishesController : ControllerBase
 	{
 		private readonly IDishRepo _dishRepo;
@@ -40,7 +39,7 @@ namespace ADODISHES.Controllers
 
 
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:int}")]
 		[Authorize]
 		public async Task<ActionResult<Dish>> GetDishes(int id)
 		{
@@ -53,10 +52,10 @@ namespace ADODISHES.Controllers
 		}
 		[HttpGet]
 		[Authorize]
-		public async Task<IActionResult> GetDishes()
+		public async Task<ActionResult<List<Dish>>> GetDishes()
 		{
 			IEnumerable<Dish> dishes = await _dishRepo.GetDishesAsync();
-			return Ok(dishes);
+			return (dishes.ToList());
 		}
 
 		[HttpPost]
@@ -68,7 +67,7 @@ namespace ADODISHES.Controllers
 		}
 
 		[HttpPut]
-		//[Authorize]
+		[Authorize]
 		public async Task<IActionResult> updateDishes([FromBody] Dish dish)
 		{
 			Dish outDish = await _dishRepo.UpdateDishAsync(dish);
@@ -82,7 +81,7 @@ namespace ADODISHES.Controllers
 			int DeletedId = await _dishRepo.DeleteDishAsync(id);
 			return Ok(String.Format("The Dish has been Deleted with an ID of {0} ", id));
 		}
-		[HttpGet("/health")]
+		[HttpGet("health")]
 		public IActionResult HealthCheck()
 		{
 			return Ok("API is healthy");
@@ -91,7 +90,7 @@ namespace ADODISHES.Controllers
 		[HttpGet("reset")]
 		public IActionResult Reset()
 		{
-			 _dishRepo.ResetDishAsync();
+			_dishRepo.ResetDishAsync();
 			return Ok("Resetting the dishes are done.");
 		}
 	}
