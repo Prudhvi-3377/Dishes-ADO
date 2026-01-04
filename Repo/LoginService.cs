@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using ADODISHES.Model;
+﻿using ADODISHES.Model;
 namespace ADODISHES.Repo
 {
 	public class LoginService : ILoginInterface
@@ -17,10 +16,10 @@ namespace ADODISHES.Repo
 
 		public async Task<(bool isSuccess, Login login)> LoginAsync(string userName, string password)
 		{
-			
+
 
 			Login? login = Logins.FirstOrDefault(l => l.userName.Equals(userName, StringComparison.OrdinalIgnoreCase) && l.password == password);
-			if(login != null)
+			if (login != null)
 			{
 				return (true, login);
 			}

@@ -15,7 +15,7 @@ namespace ADODISHES.Repo
 		{
 			_jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings));
 		}
-		public string CreateToken(string userName,string admin)
+		public string CreateToken(string userName, string admin)
 		{
 			if (string.IsNullOrEmpty(_jwtSettings.Key))
 			{
